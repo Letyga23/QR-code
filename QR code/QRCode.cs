@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
+//MessagingToolkit.QRCode библиотке для QR code (Добавить через Nuget)
+
 namespace QR_code
 {
     internal class QRCode
