@@ -7,19 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace QR_code
 {
     internal class QRCode
     {
-        public static Bitmap geterateQR(string textQR)
+        public static Bitmap GeterateQR(string textQR)
         {
             QRCodeEncoder encoder = new QRCodeEncoder();
             Bitmap qrcpde = encoder.Encode(textQR);
             return qrcpde;
         }
 
-        public static void saveQR(Bitmap qrCode)
+        public static void SaveQR(Bitmap qrCode)
         {
             SaveFileDialog save = new SaveFileDialog();
             save.InitialDirectory = Application.StartupPath;
@@ -30,7 +31,7 @@ namespace QR_code
             }
         }
 
-        public static Bitmap loadQRk()
+        public static Bitmap LoadQRk()
         {
             OpenFileDialog load = new OpenFileDialog();
             load.InitialDirectory = Application.StartupPath;
@@ -42,10 +43,21 @@ namespace QR_code
             return null;
         }
 
-        public static string readQR(Bitmap qrCode)
+        public static string ReadQR(Bitmap qrCode)
         {
-            QRCodeDecoder decoder = new QRCodeDecoder();
-            return decoder.Decode(new QRCodeBitmapImage(qrCode));
+            try
+            {
+                QRCodeDecoder decoder = new QRCodeDecoder();
+                return decoder.Decode(new QRCodeBitmapImage(qrCode));
+            }
+            catch (InvalidDataException)
+            {
+                return "Изображение не является QR-кодом.";
+            }
+            catch (Exception ex)
+            {
+                return "Ошибка при чтении QR-кода: " + ex.Message;
+            }
         }
     }
 }
